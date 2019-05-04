@@ -1,7 +1,7 @@
 import { CancellationToken, OperationCancelledError } from "@alumis/cancellationtoken";
-import { HttpStatusCode } from "src/enums/HttpStatusCode";
-import { HttpRequestError } from "src/errors/HttpRequestError";
-import { PromiseWithProgress } from "src/utils/PromiseWithProgress";
+import { HttpStatusCode } from "../enums/HttpStatusCode";
+import { HttpRequestError } from "../errors/HttpRequestError";
+import { PromiseWithProgress } from "../utils/PromiseWithProgress";
 
 export function postParseJsonAsync<T>(url: string, data?: any, cancellationToken?: CancellationToken) {
 

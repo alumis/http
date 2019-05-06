@@ -3,7 +3,7 @@ import { HttpRequestError } from '../errors/HttpRequestError';
 import { HttpStatusCode } from '../enums/HttpStatusCode';
 import { PromiseWithProgress } from '../utils/PromiseWithProgress';
 
-export function getJsonAsync<T>(url: string, cancellationToken?: CancellationToken) {
+export function getJsonAsync<T>(url: string, headers?: { [key:string]: string  }, cancellationToken?: CancellationToken) {
 
     return new PromiseWithProgress<T>((resolve, reject) => {
 
@@ -38,6 +38,11 @@ export function getJsonAsync<T>(url: string, cancellationToken?: CancellationTok
                 xhr.abort();
                 reject(new OperationCancelledError());
             });
+
+        if (headers) 
+            for (const k in headers) 
+                if (headers.hasOwnProperty(k)) 
+                    xhr.setRequestHeader(k, headers[k]);
 
         xhr.open("GET", url, true);
         xhr.responseType = "json";

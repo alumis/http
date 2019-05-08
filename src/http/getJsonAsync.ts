@@ -37,6 +37,11 @@ export function getJsonAsync<T>(url: string, headers?: { [key:string]: string },
                 reject(new OperationCancelledError());
             });
 
+        if (headers) 
+            for (const k in headers) 
+                if (headers.hasOwnProperty(k)) 
+                    xhr.setRequestHeader(k, headers[k]);
+
         xhr.open("GET", url, true);
         xhr.responseType = "json";
 

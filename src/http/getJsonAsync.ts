@@ -3,9 +3,9 @@ import { HttpRequestError } from '../errors/HttpRequestError';
 import { HttpStatusCode } from '../enums/HttpStatusCode';
 import { PromiseWithProgress } from '../utils/PromiseWithProgress';
 
-export function getJsonAsync<T>(url: string, cancellationToken?: CancellationToken) {
+export function getJsonAsync<T>(url: string, headers?: { [key:string]: string }, cancellationToken?: CancellationToken) {
 
-    return new PromiseWithProgress<T>((resolve, reject) => {
+    return new PromiseWithProgress<T>((resolve, reject, progressObservable) => {
 
         var xhr = new XMLHttpRequest();
         var cancellationListener: () => void;
@@ -29,9 +29,7 @@ export function getJsonAsync<T>(url: string, cancellationToken?: CancellationTok
             reject(new HttpRequestError(xhr, e));
         };
 
-        xhr.onprogress = e => {
-
-        };
+        xhr.onprogress = e => progressObservable.value = e.loaded / e.total;
 
         if (cancellationToken)
             cancellationToken.addListener(cancellationListener = () => {
@@ -41,6 +39,11 @@ export function getJsonAsync<T>(url: string, cancellationToken?: CancellationTok
 
         xhr.open("GET", url, true);
         xhr.responseType = "json";
+
+        if (headers) 
+            for (let key in headers) 
+                if (headers.hasOwnProperty(key))
+                    xhr.setRequestHeader(key, headers[key]);
 
         xhr.send();
     });

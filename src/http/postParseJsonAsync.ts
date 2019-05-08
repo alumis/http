@@ -3,7 +3,7 @@ import { HttpStatusCode } from "../enums/HttpStatusCode";
 import { HttpRequestError } from "../errors/HttpRequestError";
 import { PromiseWithProgress } from "../utils/PromiseWithProgress";
 
-export function postParseJsonAsync<T>(url: string, data?: any, cancellationToken?: CancellationToken) {
+export function postParseJsonAsync<T>(url: string, data?: any, headers?: { [key:string]: string }, cancellationToken?: CancellationToken) {
 
     return new PromiseWithProgress<T>((resolve, reject, progressObservable) => {
 
@@ -39,6 +39,11 @@ export function postParseJsonAsync<T>(url: string, data?: any, cancellationToken
 
         xhr.open("POST", url, true);
         xhr.responseType = "json";
+
+        if (headers) 
+            for (let key in headers) 
+                if (headers.hasOwnProperty(key))
+                    xhr.setRequestHeader(key, headers[key]);
 
         if (data) {
 

@@ -1,7 +1,7 @@
 import { OperationCancelledError } from "@alumis/cancellationtoken";
 import { HttpStatusCode } from "../enums/HttpStatusCode";
 import { HttpRequestError } from "../errors/HttpRequestError";
-import { IHttpPostArgs as IHttpPostOptions } from "./IHttpPostArgs";
+import { IHttpPostOptions as IHttpPostOptions } from "./IHttpPostOptions";
 import { HttpMethod } from "src/enums/HttpMethod";
 
 export function postAsync(options: IHttpPostOptions) {

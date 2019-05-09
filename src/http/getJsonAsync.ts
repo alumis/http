@@ -1,7 +1,7 @@
 import { CancellationToken, OperationCancelledError } from '@alumis/cancellationtoken';
 import { HttpRequestError } from '../errors/HttpRequestError';
 import { HttpStatusCode } from '../enums/HttpStatusCode';
-import { IHttpOptions } from './IHttpArgs';
+import { IHttpOptions } from './IHttpOptions';
 import { HttpMethod } from 'src/enums/HttpMethod';
 
 export function getJsonAsync<T>(options: IHttpOptions) {

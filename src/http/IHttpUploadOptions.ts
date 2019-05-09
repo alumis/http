@@ -1,8 +1,8 @@
-import { IHttpOptions } from "./IHttpArgs";
+import { IHttpOptions } from "./IHttpOptions";
 import { HttpMethod } from "src/enums/HttpMethod";
 import { HttpRequestError } from "src/errors/HttpRequestError";
 
-export interface IHttpUploadArgs<T> extends IHttpOptions {
+export interface IHttpUploadOptions<T> extends IHttpOptions {
 
     data: T;
     method?: HttpMethod;

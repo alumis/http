@@ -1,4 +1,4 @@
-import { IHttpUploadArgs } from "./IHttpUploadArgs";
+import { IHttpUploadOptions } from "./IHttpUploadOptions";
 import { r } from "@alumis/observables-i18n";
 import { OperationCancelledError } from "@alumis/cancellationtoken";
 import { Observable, co, createObservablePromiseWithText } from '@alumis/observables';
@@ -6,7 +6,7 @@ import { HttpMethod } from "src/enums/HttpMethod";
 import { HttpStatusCode } from 'src/enums/HttpStatusCode';
 import { HttpRequestError } from 'src/errors/HttpRequestError';
 
-export function uploadFileAsync(options: IHttpUploadArgs<File>, autoDispose = true) {
+export function uploadFileAsync(options: IHttpUploadOptions<File>, autoDispose = true) {
 
     let textObservable: Observable<string>;
     let text = options.text;

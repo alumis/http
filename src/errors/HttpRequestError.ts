@@ -1,8 +1,12 @@
 
 export class HttpRequestError extends Error {
 
-    constructor(xhr: XMLHttpRequest, event: ProgressEvent) {
+    constructor(public xhr: XMLHttpRequest, public event: ProgressEvent) {
 
-        super(``);
+        super();
+    }
+
+    toString() {
+        return `${this.xhr.status} ${this.xhr.statusText}`;
     }
 }

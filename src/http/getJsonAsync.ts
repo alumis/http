@@ -1,19 +1,20 @@
 import { CancellationToken, OperationCancelledError } from '@alumis/cancellationtoken';
 import { HttpRequestError } from '../errors/HttpRequestError';
 import { HttpStatusCode } from '../enums/HttpStatusCode';
-import { PromiseWithProgress } from '../utils/PromiseWithProgress';
+import { IHttpOptions } from './IHttpArgs';
+import { HttpMethod } from 'src/enums/HttpMethod';
 
-export function getJsonAsync<T>(url: string, headers?: { [key:string]: string }, cancellationToken?: CancellationToken) {
+export function getJsonAsync<T>(options: IHttpOptions) {
 
-    return new PromiseWithProgress<T>((resolve, reject, progressObservable) => {
+    return new Promise<T>((resolve, reject) => {
 
         var xhr = new XMLHttpRequest();
         var cancellationListener: () => void;
 
         xhr.onload = e => {
 
-            if (cancellationToken)
-                cancellationToken.removeListener(cancellationListener);
+            if (options.cancellationToken)
+                options.cancellationToken.removeListener(cancellationListener);
 
             if (xhr.status === HttpStatusCode.Ok)
                 resolve(xhr.response);
@@ -23,32 +24,25 @@ export function getJsonAsync<T>(url: string, headers?: { [key:string]: string },
 
         xhr.onerror = e => {
 
-            if (cancellationToken)
-                cancellationToken.removeListener(cancellationListener);
+            if (options.cancellationToken)
+                options.cancellationToken.removeListener(cancellationListener);
 
             reject(new HttpRequestError(xhr, e));
         };
 
-        xhr.onprogress = e => progressObservable.value = e.loaded / e.total;
-
-        if (cancellationToken)
-            cancellationToken.addListener(cancellationListener = () => {
+        if (options.cancellationToken)
+            options.cancellationToken.addListener(cancellationListener = () => {
                 xhr.abort();
                 reject(new OperationCancelledError());
             });
 
-        if (headers) 
-            for (const k in headers) 
-                if (headers.hasOwnProperty(k)) 
-                    xhr.setRequestHeader(k, headers[k]);
-
-        xhr.open("GET", url, true);
+        xhr.open(HttpMethod.Get, options.url, true);
         xhr.responseType = "json";
 
-        if (headers) 
-            for (let key in headers) 
-                if (headers.hasOwnProperty(key))
-                    xhr.setRequestHeader(key, headers[key]);
+        if (options.headers) 
+            for (let key in options.headers) 
+                if (options.headers.hasOwnProperty(key))
+                    xhr.setRequestHeader(key, options.headers[key]);
 
         xhr.send();
     });

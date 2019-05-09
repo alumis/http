@@ -1,22 +1,20 @@
-import { CancellationToken, OperationCancelledError } from "@alumis/cancellationtoken";
+import { OperationCancelledError } from "@alumis/cancellationtoken";
 import { HttpStatusCode } from "../enums/HttpStatusCode";
 import { HttpRequestError } from "../errors/HttpRequestError";
-import { PromiseWithProgress } from "../utils/PromiseWithProgress";
+import { IHttpPostArgs as IHttpPostOptions } from "./IHttpPostArgs";
+import { HttpMethod } from "src/enums/HttpMethod";
 
-export function postAsync(url: string, data?: any, headers?: { [key: string]: string }, cancellationToken?: CancellationToken) {
+export function postAsync(options: IHttpPostOptions) {
 
-    return new PromiseWithProgress<any>((resolve, reject, progressObservable) => {
+    return new Promise<any>((resolve, reject) => {
 
         var xhr = new XMLHttpRequest();
-
-        xhr.open("POST", url, true);
-
-        var cancellationListener: () => void;
+        var cancellationListener: () => void;             
 
         xhr.onload = e => {
 
-            if (cancellationToken)
-                cancellationToken.removeListener(cancellationListener);
+            if (options.cancellationToken)
+                options.cancellationToken.removeListener(cancellationListener);
 
             if (xhr.status === HttpStatusCode.Ok)
                 resolve(xhr.response);
@@ -26,32 +24,32 @@ export function postAsync(url: string, data?: any, headers?: { [key: string]: st
 
         xhr.onerror = e => {
 
-            if (cancellationToken)
-                cancellationToken.removeListener(cancellationListener);
+            if (options.cancellationToken)
+                options.cancellationToken.removeListener(cancellationListener);
 
             reject(new HttpRequestError(xhr, e));
         };
 
-        xhr.onprogress = e => progressObservable.value = e.loaded / e.total;
-
-        if (cancellationToken)
-            cancellationToken.addListener(cancellationListener = () => {
+        if (options.cancellationToken)
+            options.cancellationToken.addListener(cancellationListener = () => {
                 xhr.abort();
                 reject(new OperationCancelledError());
             });
 
-        if (headers)
-            for (let key in headers) 
-                if (headers.hasOwnProperty(key))
-                    xhr.setRequestHeader(key, headers[key]);
+        xhr.open(HttpMethod.Post, options.url, true);
 
-        if (data) {
+        if (options.headers)
+            for (let key in options.headers) 
+                if (options.headers.hasOwnProperty(key))
+                    xhr.setRequestHeader(key, options.headers[key]);
+
+        if (options.data) {
 
             var formData = new FormData();
 
-            for (var p in data) {
+            for (var p in options.data) {
 
-                var value = data[p];
+                var value = options.data[p];
 
                 if (Object.prototype.toString.call(value) === "[object Date]")
                     value = (<Date>value).toISOString();

@@ -8,7 +8,6 @@ export * from './http/postParseJsonAsync';
 export * from './http/uploadFileAsync';
 export * from './http/uploadUint8ArrayAsync';
 export * from './http/IHttpOptions';
-export * from './http/IHttpPostOptions';
 export * from './http/IHttpUploadOptions';
 
 

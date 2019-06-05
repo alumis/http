@@ -1,10 +1,10 @@
 import { OperationCancelledError } from "@alumis/cancellationtoken";
 import { r } from "@alumis/observables-i18n";
 import { Observable, co, createObservablePromiseWithText } from '@alumis/observables';
-import { HttpStatusCode } from 'src/enums/HttpStatusCode';
-import { HttpRequestError } from 'src/errors/HttpRequestError';
+import { HttpStatusCode } from '../enums/HttpStatusCode';
+import { HttpRequestError } from '../errors/HttpRequestError';
 import { IHttpUploadOptions as IHttpUploadOptions } from "./IHttpUploadOptions";
-import { HttpMethod } from "src/enums/HttpMethod";
+import { HttpMethod } from "../enums/HttpMethod";
 
 export function uploadUint8ArrayAsync(options: IHttpUploadOptions<Uint8Array>, autoDispose = true) {
 

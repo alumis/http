@@ -1,10 +1,10 @@
 import { CancellationToken, OperationCancelledError } from "@alumis/cancellationtoken";
 import { HttpStatusCode } from "../enums/HttpStatusCode";
 import { HttpRequestError } from "../errors/HttpRequestError";
-import { IHttpPostOptions } from "./IHttpPostOptions";
-import { HttpMethod } from "src/enums/HttpMethod";
+import { HttpMethod } from "../enums/HttpMethod";
+import { IHttpOptions } from "./IHttpOptions";
 
-export function postParseJsonAsync<T>(options: IHttpPostOptions) {
+export function postParseJsonAsync<T>(options: IHttpOptions) {
 
     return new Promise<T>((resolve, reject) => {
 

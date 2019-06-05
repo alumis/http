@@ -2,9 +2,9 @@ import { IHttpUploadOptions } from "./IHttpUploadOptions";
 import { r } from "@alumis/observables-i18n";
 import { OperationCancelledError } from "@alumis/cancellationtoken";
 import { Observable, co, createObservablePromiseWithText } from '@alumis/observables';
-import { HttpMethod } from "src/enums/HttpMethod";
-import { HttpStatusCode } from 'src/enums/HttpStatusCode';
-import { HttpRequestError } from 'src/errors/HttpRequestError';
+import { HttpMethod } from "../enums/HttpMethod";
+import { HttpStatusCode } from '../enums/HttpStatusCode';
+import { HttpRequestError } from '../errors/HttpRequestError';
 
 export function uploadFileAsync(options: IHttpUploadOptions<File>, autoDispose = true) {
 

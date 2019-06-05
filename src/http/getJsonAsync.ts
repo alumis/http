@@ -1,4 +1,4 @@
-import { CancellationToken, OperationCancelledError } from '@alumis/cancellationtoken';
+import { OperationCancelledError } from '@alumis/cancellationtoken';
 import { HttpRequestError } from '../errors/HttpRequestError';
 import { HttpStatusCode } from '../enums/HttpStatusCode';
 import { IHttpOptions } from './IHttpOptions';
@@ -35,6 +35,22 @@ export function getJsonAsync<T>(options: IHttpOptions) {
                 xhr.abort();
                 reject(new OperationCancelledError());
             });
+
+        if (options.data) {
+
+            var kvps: string[] = [];
+            
+            for (let name in options.data) {
+
+                let value = options.data[name];
+
+                if (name && value) {
+                    kvps.push(`${name}=${value}`);
+                }
+            }
+
+            options.url += `?${kvps.join('&')}`;
+        }
 
         xhr.open(HttpMethod.Get, options.url, true);
         xhr.responseType = "json";

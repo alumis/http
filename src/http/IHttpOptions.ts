@@ -2,7 +2,8 @@ import { CancellationToken } from "@alumis/cancellationtoken";
 
 export interface IHttpOptions {
 
-    url: string;
-    headers?: { [key:string]: string };
     cancellationToken?: CancellationToken;
+    data?: { [name: string]: any; };
+    headers?: { [key:string]: string };
+    url: string;    
 }

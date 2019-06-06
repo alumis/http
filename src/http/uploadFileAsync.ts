@@ -1,12 +1,12 @@
 import { IHttpUploadOptions } from "./IHttpUploadOptions";
 import { r } from "@alumis/observables-i18n";
-import { OperationCancelledError } from "@alumis/cancellationtoken";
+import { OperationCancelledError, CancellationToken } from "@alumis/cancellationtoken";
 import { Observable, co, createObservablePromiseWithText } from '@alumis/observables';
 import { HttpMethod } from "../enums/HttpMethod";
 import { HttpStatusCode } from '../enums/HttpStatusCode';
 import { HttpRequestError } from '../errors/HttpRequestError';
 
-export function uploadFileAsync(options: IHttpUploadOptions<File>, autoDispose = true) {
+export function uploadFileAsync(options: IHttpUploadOptions<File>, autoDispose = true, cancellationToken?: CancellationToken) {
 
     let textObservable: Observable<string>;
     let text = options.text;
@@ -24,8 +24,8 @@ export function uploadFileAsync(options: IHttpUploadOptions<File>, autoDispose =
 
         xhr.onload = e => {
 
-            if (options.cancellationToken)
-                options.cancellationToken.removeListener(cancellationListener);
+            if (cancellationToken)
+                cancellationToken.removeListener(cancellationListener);
 
             if (xhr.status === HttpStatusCode.Ok)
                 resolve(xhr.response);
@@ -40,14 +40,14 @@ export function uploadFileAsync(options: IHttpUploadOptions<File>, autoDispose =
 
         xhr.onerror = e => {
 
-            if (options.cancellationToken)
-                options.cancellationToken.removeListener(cancellationListener);
+            if (cancellationToken)
+                cancellationToken.removeListener(cancellationListener);
 
             reject(new HttpRequestError(xhr, e));
         };
 
-        if (options.cancellationToken)
-            options.cancellationToken.addListener(cancellationListener = () => {
+        if (cancellationToken)
+            cancellationToken.addListener(cancellationListener = () => {
                 xhr.abort();
                 reject(new OperationCancelledError());
             });

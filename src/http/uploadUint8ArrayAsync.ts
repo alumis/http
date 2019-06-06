@@ -1,4 +1,4 @@
-import { OperationCancelledError } from "@alumis/cancellationtoken";
+import { OperationCancelledError, CancellationToken } from "@alumis/cancellationtoken";
 import { r } from "@alumis/observables-i18n";
 import { Observable, co, createObservablePromiseWithText } from '@alumis/observables';
 import { HttpStatusCode } from '../enums/HttpStatusCode';
@@ -6,11 +6,10 @@ import { HttpRequestError } from '../errors/HttpRequestError';
 import { IHttpUploadOptions as IHttpUploadOptions } from "./IHttpUploadOptions";
 import { HttpMethod } from "../enums/HttpMethod";
 
-export function uploadUint8ArrayAsync(options: IHttpUploadOptions<Uint8Array>, autoDispose = true) {
+export function uploadUint8ArrayAsync(options: IHttpUploadOptions<Uint8Array>, autoDispose = true, cancellationToken?: CancellationToken) {
 
     let textObservable: Observable<string>, ownsObservable: boolean;
     let text = options.text;
-    let cancellationToken = options.cancellationToken;
     let method = options.method || HttpMethod.Put;
     let data = options.data;
 

@@ -4,7 +4,7 @@ import { HttpRequestError } from "../errors/HttpRequestError";
 import { HttpMethod } from "../enums/HttpMethod";
 import { IHttpOptions } from "./IHttpOptions";
 
-export function postParseJsonAsync<T>(options: IHttpOptions) {
+export function postParseJsonAsync<T>(options: IHttpOptions, cancellationToken?: CancellationToken) {
 
     return new Promise<T>((resolve, reject) => {
 
@@ -13,8 +13,8 @@ export function postParseJsonAsync<T>(options: IHttpOptions) {
 
         xhr.onload = e => {
 
-            if (options.cancellationToken)
-                options.cancellationToken.removeListener(cancellationListener);
+            if (cancellationToken)
+                cancellationToken.removeListener(cancellationListener);
 
             if (xhr.status === HttpStatusCode.Ok)
                 resolve(xhr.response);
@@ -24,14 +24,14 @@ export function postParseJsonAsync<T>(options: IHttpOptions) {
 
         xhr.onerror = e => {
 
-            if (options.cancellationToken)
-                options.cancellationToken.removeListener(cancellationListener);
+            if (cancellationToken)
+                cancellationToken.removeListener(cancellationListener);
 
             reject(new HttpRequestError(xhr, e));
         };
 
-        if (options.cancellationToken)
-            options.cancellationToken.addListener(cancellationListener = () => {
+        if (cancellationToken)
+            cancellationToken.addListener(cancellationListener = () => {
                 xhr.abort();
                 reject(new OperationCancelledError());
             });

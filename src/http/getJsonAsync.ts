@@ -1,10 +1,10 @@
-import { OperationCancelledError } from '@alumis/cancellationtoken';
+import { OperationCancelledError, CancellationToken } from '@alumis/cancellationtoken';
 import { HttpRequestError } from '../errors/HttpRequestError';
 import { HttpStatusCode } from '../enums/HttpStatusCode';
 import { IHttpOptions } from './IHttpOptions';
 import { HttpMethod } from '../enums/HttpMethod';
 
-export function getJsonAsync<T>(options: IHttpOptions) {
+export function getJsonAsync<T>(options: IHttpOptions, cancellationToken?: CancellationToken) {
 
     return new Promise<T>((resolve, reject) => {
 
@@ -13,8 +13,8 @@ export function getJsonAsync<T>(options: IHttpOptions) {
 
         xhr.onload = e => {
 
-            if (options.cancellationToken)
-                options.cancellationToken.removeListener(cancellationListener);
+            if (cancellationToken)
+                cancellationToken.removeListener(cancellationListener);
 
             if (xhr.status === HttpStatusCode.Ok)
                 resolve(xhr.response);
@@ -24,14 +24,14 @@ export function getJsonAsync<T>(options: IHttpOptions) {
 
         xhr.onerror = e => {
 
-            if (options.cancellationToken)
-                options.cancellationToken.removeListener(cancellationListener);
+            if (cancellationToken)
+                cancellationToken.removeListener(cancellationListener);
 
             reject(new HttpRequestError(xhr, e));
         };
 
-        if (options.cancellationToken)
-            options.cancellationToken.addListener(cancellationListener = () => {
+        if (cancellationToken)
+            cancellationToken.addListener(cancellationListener = () => {
                 xhr.abort();
                 reject(new OperationCancelledError());
             });

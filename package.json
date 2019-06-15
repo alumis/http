@@ -23,28 +23,25 @@
   },
   "homepage": "https://github.com/alumis/http#readme",
   "devDependencies": {
-    "@alumis/cancellationtoken": "^1.0.4",
     "@alumis/observables": "^1.0.51",
-    "@alumis/observables-i18n": "^1.0.14",
-    "@alumis/semaphore": "^1.0.1",
-    "@alumis/utils": "^1.0.4",
+    "@alumis/observables-i18n": "^1.0.16",
+    "@alumis/utils": "^1.0.15",
     "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.4.0",
+    "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-react-jsx": "^7.3.0",
-    "@babel/preset-env": "^7.4.2",
+    "@babel/preset-env": "^7.4.5",
     "@babel/preset-typescript": "^7.3.3",
-    "babel-loader": "^8.0.5",
+    "babel-loader": "^8.0.6",
     "rimraf": "^2.6.3",
-    "terser-webpack-plugin": "^1.2.3",
-    "webpack": "^4.31.0",
-    "webpack-cli": "^3.3.1"
+    "terser-webpack-plugin": "^1.3.0",
+    "webpack": "^4.34.0",
+    "webpack-cli": "^3.3.4"
   },
   "peerDependencies": {
     "@alumis/utils": "^1.0.4",
     "@alumis/observables": "^1.0.51",
-    "@alumis/cancellationtoken": "^1.0.4",
     "@alumis/observables-i18n": "^1.0.14"
   }
 }

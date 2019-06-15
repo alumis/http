@@ -1,4 +1,5 @@
-import { OperationCancelledError, CancellationToken } from "@alumis/cancellationtoken";
+import { CancellationToken} from "@alumis/utils/src/CancellationToken";
+import { OperationCancelledError } from "@alumis/utils/src/OperationCancelledError";
 import { r } from "@alumis/observables-i18n";
 import { Observable, co, createObservablePromiseWithText } from '@alumis/observables';
 import { HttpStatusCode } from '../enums/HttpStatusCode';

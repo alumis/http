@@ -1,6 +1,7 @@
+import { CancellationToken} from "@alumis/utils/src/CancellationToken";
+import { OperationCancelledError } from "@alumis/utils/src/OperationCancelledError";
 import { IHttpUploadOptions } from "./IHttpUploadOptions";
 import { r } from "@alumis/observables-i18n";
-import { OperationCancelledError, CancellationToken } from "@alumis/cancellationtoken";
 import { Observable, co, createObservablePromiseWithText } from '@alumis/observables';
 import { HttpMethod } from "../enums/HttpMethod";
 import { HttpStatusCode } from '../enums/HttpStatusCode';

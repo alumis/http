@@ -1,4 +1,5 @@
-import { OperationCancelledError, CancellationToken } from '@alumis/cancellationtoken';
+import { CancellationToken} from "@alumis/utils/src/CancellationToken";
+import { OperationCancelledError } from "@alumis/utils/src/OperationCancelledError";
 import { HttpRequestError } from '../errors/HttpRequestError';
 import { HttpStatusCode } from '../enums/HttpStatusCode';
 import { IHttpOptions } from './IHttpOptions';

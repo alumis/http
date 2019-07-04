@@ -46,7 +46,7 @@ export function getJsonAsync<T>(options: IHttpOptions, cancellationToken?: Cance
                 let value = options.data[name];
 
                 if (name && value) {
-                    kvps.push(`${name}=${value}`);
+                    kvps.push(`${encodeURIComponent(name)}=${encodeURIComponent(value)}`);
                 }
             }
 
